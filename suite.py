@@ -2,9 +2,9 @@ import unittest
 
 import HtmlTestRunner
 
+from ProiectUnittestShein.add_to_cart_test import TestAddRemoveItems
 from ProiectUnittestShein.login_tests import TestLoginPage
 from ProiectUnittestShein.cautare_prod_test import TestCautareProduse
-
 
 
 class MyTestSuites(unittest.TestCase):
@@ -15,7 +15,7 @@ class MyTestSuites(unittest.TestCase):
         smoketest.addTests([
             unittest.defaultTestLoader.loadTestsFromTestCase(TestLoginPage),
             unittest.defaultTestLoader.loadTestsFromTestCase(TestCautareProduse),
-
+            unittest.defaultTestLoader.loadTestsFromTestCase(TestAddRemoveItems)
 
         ])
         runner = HtmlTestRunner.HTMLTestRunner(

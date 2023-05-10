@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 
 from ProiectUnittestShein import Locators
 import unittest
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class TestCautareProduse(unittest.TestCase):
@@ -12,6 +14,9 @@ class TestCautareProduse(unittest.TestCase):
         self.driver.get('https://shine-boutique.ro/')
         self.driver.maximize_window()
         time.sleep(2)
+
+    def tearDown(self) -> None:
+        self.driver.quit()
 
     def test4_cautare_produs(self):
         self.driver.find_element(*Locators.SEARCH_BAR).send_keys("Pantofi baieti")
@@ -27,16 +32,12 @@ class TestCautareProduse(unittest.TestCase):
         self.driver.find_element(*Locators.SEARCH_BAR).send_keys("Pantofi baieti")
         self.driver.find_element(*Locators.SEARCHING_BTN).click()
         self.driver.find_element(*Locators.MOCASINI).click()
-        pret = (By.XPATH, "//span[@id='product-price-49320']//span[@class='price'][normalize-space()='229,00 RON']")
-        self.assertTrue(pret, "229,00 RON")
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(Locators.MARIMEA))
+        self.assertTrue(Locators.PRET, "229,00 RON")
 
     def test6_cautare_invalida(self):
         self.driver.find_element(*Locators.SEARCH_BAR).send_keys("excavator")
         self.driver.find_element(*Locators.SEARCHING_BTN).click()
-        time.sleep(3)
         expected_result = "Căutarea dvs. nu a returnat niciun rezultat."
         actual_result = self.driver.find_element(*Locators.ERROARE_CAUTARE)
         self.assertTrue(expected_result, actual_result)
-
-    def tearDown(self) -> None:
-        self.driver.quit()
